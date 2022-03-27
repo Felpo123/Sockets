@@ -8,19 +8,22 @@ public class Servidor {
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
         System.out.println("Ingrese el puerto a escuchar: ");
-        int puerto = teclado.nextInt();
-        try {
-            ServerSocket serverSocket = new ServerSocket(puerto);
-            Socket cliente = serverSocket.accept(); //aca el programa para hasta que un cliente se conecte
+        int puerto = teclado.nextInt();                       //obtenemos el puerto a escuchar.
+
+
+        try {                                                                    //try y catch para controlar la ejecución del subprograma
+            ServerSocket serverSocket = new ServerSocket(puerto);                // declaramos un objeto ServerSocket para realizar la comunicación
+            Socket cliente = serverSocket.accept();                              //El servidor espera que se conecte un cliente
             System.out.println("Se conecto un Cliente");
 
-            DataInputStream dataInputStream = new DataInputStream(cliente.getInputStream());
-            DataOutputStream dataOutputStream = new DataOutputStream(cliente.getOutputStream());
+            DataInputStream dataInputStream = new DataInputStream(cliente.getInputStream());                //  objeto DataInputStream para ayudarnos a leer los datos del cliente
+            DataOutputStream dataOutputStream = new DataOutputStream(cliente.getOutputStream());             // objeto DataoutputStream para ayudarnos a enviar datos al cliente
             String mensajeCliente = "";
 
             while (!mensajeCliente.equalsIgnoreCase("exit")){
-                mensajeCliente = dataInputStream.readUTF();
-                switch (mensajeCliente){
+                mensajeCliente = dataInputStream.readUTF();                                          // leemos los datos el cliente en formato UTF-8.
+
+                switch (mensajeCliente){                                                              //manejamos el mensaje del cliente
                     case "1":
                         File file = new File("src/main/java/archivoServidor");
                         dataOutputStream.writeUTF(mostrarContenido(file)+
